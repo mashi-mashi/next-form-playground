@@ -1,7 +1,7 @@
-import { createCustomFormParts } from "@components/Forms/CustomForm";
-import styled from "@emotion/styled";
-import type { NextPage } from "next";
-import React, { useState } from "react";
+import styled from '@emotion/styled'
+import type { NextPage } from 'next'
+import { useState } from 'react'
+import { useCustomForm } from '@hooks/useCustomForm'
 
 const Container = styled.div`
   height: 100vh;
@@ -9,41 +9,44 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-`;
+`
 
-type FormInputType = { id: string; value: string; hoge: string; fuga: string };
+type FormInputType = { id: string; value: string; hoge: string; fuga: string }
 
 const Home: NextPage = () => {
-  const [state, setState] = useState<FormInputType>();
+  const [state, setState] = useState<FormInputType>()
 
-  console.log("親コンポーネントのstate", state);
+  console.log('親コンポーネントのstate', state)
 
-  const CustomFormParts = createCustomFormParts<FormInputType>(
+  const CustomFormParts = useCustomForm<FormInputType>(
     [
       {
-        label: "id",
-        type: "string",
+        label: 'id',
+        type: 'string',
       },
       {
-        label: "value",
-        type: "string",
+        label: 'value',
+        type: 'string',
         required: true,
         showError: true,
-        errorMessage: "バリデーションエラーだよ",
+        errorMessage: 'バリデーションエラーだよ',
       },
       {
-        label: "hoge",
-        type: "string",
+        label: 'hoge',
+        type: 'string',
       },
       {
-        label: "fuga",
-        type: "string",
+        label: 'fuga',
+        type: 'string',
       },
     ],
-    (data) => setState(data)
-  );
+    (data) => {
+      setState(data)
+      // APIリクエストとかやるならこのへん
+    }
+  )
 
-  return <Container>{CustomFormParts}</Container>;
-};
+  return <Container>{CustomFormParts}</Container>
+}
 
-export default Home;
+export default Home

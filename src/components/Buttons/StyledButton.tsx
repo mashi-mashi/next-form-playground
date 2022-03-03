@@ -1,25 +1,25 @@
-import { Button as MuiButton, styled, SvgIcon } from "@mui/material";
-import { MouseEventHandler } from "react";
+import { Button as MuiButton, styled, SvgIcon } from '@mui/material'
+import { MouseEventHandler } from 'react'
 
 type P = {
-  id?: string;
-  label?: string;
-  Icon?: typeof SvgIcon;
-  StartIcon?: typeof SvgIcon;
-  EndIcon?: typeof SvgIcon;
-  width?: number | string;
-  onClick?: MouseEventHandler<HTMLButtonElement>;
-  variant?: "text" | "outlined" | "contained"; // 初期値はcontained
-  disabled?: boolean;
-  full?: boolean; // flex=1
-  fontSize?: number;
-  borderRadius?: number;
-  height?: number | string;
-  running?: boolean;
-  radius?: number;
-  color?: "primary" | "secondary";
-  fontWeight?: number;
-};
+  id?: string,
+  label?: string,
+  Icon?: typeof SvgIcon,
+  StartIcon?: typeof SvgIcon,
+  EndIcon?: typeof SvgIcon,
+  width?: number | string,
+  onClick?: MouseEventHandler<HTMLButtonElement>,
+  variant?: 'text' | 'outlined' | 'contained', // 初期値はcontained
+  disabled?: boolean,
+  full?: boolean, // flex=1
+  fontSize?: number,
+  borderRadius?: number,
+  height?: number | string,
+  running?: boolean,
+  radius?: number,
+  color?: 'primary' | 'secondary',
+  fontWeight?: number
+}
 
 const StyledButton = styled(MuiButton)<P>`
   min-width: 0;
@@ -33,6 +33,6 @@ const StyledButton = styled(MuiButton)<P>`
   font-size: ${(props) => (props.fontSize ? props.fontSize : undefined)};
   border-radius: ${(props) => (props.radius ? props.radius : undefined)};
   font-weight: ${(props) => props.fontWeight ?? 600} !important;
-`;
+`
 
-export default StyledButton;
+export default StyledButton
