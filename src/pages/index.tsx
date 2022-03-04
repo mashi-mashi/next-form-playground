@@ -11,7 +11,7 @@ const Container = styled.div`
   flex-direction: column;
 `
 
-type FormInputType = { id: string; value: string; hoge: string; fuga: string }
+type FormInputType = { id: string; value: string; hoge: string; fuga: { deepFuga1: string } }
 
 const Home: NextPage = () => {
   const [state, setState] = useState<FormInputType>()
@@ -21,28 +21,38 @@ const Home: NextPage = () => {
   const CustomFormParts = useCustomForm<FormInputType>(
     [
       {
-        label: 'id',
-        type: 'string',
+        key: 'id',
+        type: 'textfield',
       },
       {
-        label: 'value',
-        type: 'string',
+        key: 'value',
+        type: 'textfield',
         required: true,
         showError: true,
         errorMessage: 'バリデーションエラーだよ',
       },
       {
-        label: 'hoge',
-        type: 'string',
+        key: 'hoge',
+        type: 'select',
+        selectValues: [
+          {
+            label: 'hoge1',
+            value: 100,
+          },
+          {
+            label: 'hoge2',
+            value: 200,
+          },
+        ],
       },
       {
-        label: 'fuga',
-        type: 'string',
+        key: 'fuga.deepFuga1',
+        type: 'textfield',
       },
     ],
     (data) => {
+      // validなデータがsubmitされたときだけ発火
       setState(data)
-      // APIリクエストとかやるならこのへん
     }
   )
 

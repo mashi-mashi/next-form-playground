@@ -2,6 +2,7 @@ import styled from '@emotion/styled'
 import { Path, UnpackNestedValue, useForm } from 'react-hook-form'
 import StyledButton from '@components/Buttons/StyledButton'
 import { CustomInput } from '@components/Forms/CustomInput'
+import { CustomSelectBox } from '@components/Forms/CustomSelectBox'
 import { AnyType } from 'src/util/type'
 
 const Div = styled.div`
@@ -10,14 +11,25 @@ const Div = styled.div`
   gap: 24px;
 `
 
+type CreateCustomFormType<T> =
+  | {
+      key: Path<T>
+      required?: boolean
+      type: 'textfield'
+      showError?: boolean
+      errorMessage?: string
+    }
+  | {
+      key: Path<T>
+      required?: boolean
+      type: 'select'
+      showError?: boolean
+      errorMessage?: string
+      selectValues: { label: string; value: AnyType }[]
+    }
+
 export const useCustomForm = <T,>(
-  params: {
-    label: Path<T>
-    required?: boolean
-    type: 'string' | 'number' | 'date'
-    showError?: boolean
-    errorMessage?: string
-  }[],
+  params: CreateCustomFormType<T>[],
   callback: (data: UnpackNestedValue<T>) => AnyType
 ) => {
   const {
@@ -29,14 +41,32 @@ export const useCustomForm = <T,>(
   const onSubmit = handleSubmit((data) => {
     callback(data)
   })
+
   return (
     <form onSubmit={onSubmit}>
       <Div>
         {params.map((p, index) => {
           return (
             <div key={index}>
-              <CustomInput label={p.label} register={register} required={p.required} />
-              {p.showError && (errors as AnyType)[p.label] && p.errorMessage}
+              {p.type === 'textfield' && (
+                <CustomInput
+                  label={p.key}
+                  register={register}
+                  required={p.required}
+                  error={p.showError && `${p.key}` in errors}
+                  helperText={p.errorMessage}
+                />
+              )}
+              {p.type === 'select' && (
+                <CustomSelectBox
+                  label={p.key}
+                  register={register}
+                  required={p.required}
+                  error={p.showError && `${p.key}` in errors}
+                  helperText={p.errorMessage}
+                  selectValues={p.selectValues}
+                />
+              )}
             </div>
           )
         })}

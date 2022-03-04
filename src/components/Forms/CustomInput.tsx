@@ -5,8 +5,12 @@ export const CustomInput = <T,>({
   label,
   register,
   required,
+  helperText,
+  error,
 }: {
   label: Path<T>
   register: UseFormRegister<T>
   required?: boolean
-}) => <TextField label={label} {...register(label, { required })} />
+  helperText?: string
+  error?: boolean
+}) => <TextField label={label} {...register(label, { required })} error={error} helperText={helperText} />
