@@ -11,13 +11,14 @@ const Div = styled.div`
   gap: 24px;
 `
 
-type CreateCustomFormType<T> =
+type CustomFormType<T> =
   | {
       key: Path<T>
       required?: boolean
       type: 'textfield'
       showError?: boolean
       errorMessage?: string
+      inputType?: React.InputHTMLAttributes<unknown>['type']
     }
   | {
       key: Path<T>
@@ -28,10 +29,7 @@ type CreateCustomFormType<T> =
       selectValues: { label: string; value: AnyType }[]
     }
 
-export const useCustomForm = <T,>(
-  params: CreateCustomFormType<T>[],
-  callback: (data: UnpackNestedValue<T>) => AnyType
-) => {
+export const CustomFroms = <T,>(params: CustomFormType<T>[], callback: (data: UnpackNestedValue<T>) => AnyType) => {
   const {
     register,
     handleSubmit,

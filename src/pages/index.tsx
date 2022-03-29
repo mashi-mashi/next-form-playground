@@ -1,7 +1,9 @@
 import styled from '@emotion/styled'
+import { Typography } from '@mui/material'
+import { Box } from '@mui/system'
 import type { NextPage } from 'next'
 import { useState } from 'react'
-import { useCustomForm } from '@hooks/useCustomForm'
+import { CustomFroms } from '@components/Forms/CustomForms'
 
 const Container = styled.div`
   height: 100vh;
@@ -11,21 +13,21 @@ const Container = styled.div`
   flex-direction: column;
 `
 
-type FormInputType = { id: string; value: string; hoge: string; fuga: { deepFuga1: string } }
+type FormInputType = { id: string; value: string; hoge: string; fuga: { deepFuga1: string }; amount: number }
 
 const Home: NextPage = () => {
   const [state, setState] = useState<FormInputType>()
 
   console.log('親コンポーネントのstate', state)
 
-  const CustomFormParts = useCustomForm<FormInputType>(
+  const CustomFormParts = CustomFroms<FormInputType>(
     [
       {
         key: 'id',
         type: 'textfield',
       },
       {
-        key: 'value',
+        key: 'fuga',
         type: 'textfield',
         required: true,
         showError: true,
@@ -37,17 +39,22 @@ const Home: NextPage = () => {
         selectValues: [
           {
             label: 'hoge1',
-            value: 100,
+            value: 'hoge1',
           },
           {
             label: 'hoge2',
-            value: 200,
+            value: 'hoge2',
           },
         ],
       },
       {
         key: 'fuga.deepFuga1',
         type: 'textfield',
+      },
+      {
+        key: 'amount',
+        type: 'textfield',
+        inputType: 'number',
       },
     ],
     (data) => {
@@ -56,7 +63,14 @@ const Home: NextPage = () => {
     }
   )
 
-  return <Container>{CustomFormParts}</Container>
+  return (
+    <Container>
+      <Box>{CustomFormParts}</Box>
+      <Box>
+        <Typography>{JSON.stringify(state)}</Typography>
+      </Box>
+    </Container>
+  )
 }
 
 export default Home

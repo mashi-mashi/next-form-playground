@@ -7,10 +7,21 @@ export const CustomInput = <T,>({
   required,
   helperText,
   error,
+  inputType,
 }: {
   label: Path<T>
   register: UseFormRegister<T>
   required?: boolean
   helperText?: string
   error?: boolean
-}) => <TextField label={label} {...register(label, { required })} error={error} helperText={helperText} />
+  inputType?: React.InputHTMLAttributes<unknown>['type']
+}) => (
+  <TextField
+    label={label}
+    {...register(label, { required })}
+    error={error}
+    helperText={error && helperText}
+    type={inputType}
+    InputLabelProps={{ shrink: true }}
+  />
+)
